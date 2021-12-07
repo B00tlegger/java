@@ -3,6 +3,7 @@ package comedy.services;
 import comedy.model.*;
 import comedy.reposytories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,32 +31,32 @@ public class PostsService {
     }
 
     public void savePost(Post post) {
-            if(headerRepository.findById(post.getHeader().getTitle()).isEmpty()){
-                headerRepository.save(post.getHeader());
-            }
-            Voting voting = post.getVoting();
-            if (voting != null) {
-                if (votingRepository.findById(voting.getId()).isEmpty()) {
-                    for (Option option : post.getVoting().getOptions()) {
-                        optionRepository.save(option);
-                    }
-                    votingRepository.save(voting);
+        if (headerRepository.findById(post.getHeader().getTitle()).isEmpty()) {
+            headerRepository.save(post.getHeader());
+        }
+        Voting voting = post.getVoting();
+        if (voting != null) {
+            if (votingRepository.findById(voting.getId()).isEmpty()) {
+                for (Option option : post.getVoting().getOptions()) {
+                    optionRepository.save(option);
                 }
+                votingRepository.save(voting);
             }
-            for (Attachment attachment : post.getAttachments()) {
-                attachmentRepository.save(attachment);
-            }
-            postRepository.save(post);
+        }
+        for (Attachment attachment : post.getAttachments()) {
+            attachmentRepository.save(attachment);
+        }
+        postRepository.save(post);
     }
 
     public List<Post> getAllPosts() {
         return (List<Post>) postRepository.findAll();
     }
 
+    @Cacheable(value = "posts", key = "#id")
     public Post getById(String id) {
-        List<Post> allPosts = (List<Post>) postRepository.findAll();
-        return allPosts.stream().anyMatch(post -> post.getId().equals(id))
-                ? allPosts.stream().filter(post -> post.getId().equals(id)).findFirst().get()
+        return postRepository.findById(id).isPresent()
+                ? postRepository.findById(id).get()
                 : null;
     }
 }
