@@ -1,0 +1,24 @@
+spring.datasource.url: jdbc:mysql://localhost:3306/search_engine
+spring.datasource.username: root
+spring.datasource.password: testtest
+spring.datasource.initialization-mode: always
+spring.datasource.data: classpath:/data.sql
+spring.datasource.init_command: SET NAMES utf8mb4
+
+spring.jpa.hibernate.ddl-auto: update
+spring.jpa.open-in-view: true
+
+spring.jackson.default-property-inclusion: NON_NULL
+
+application:
+  sites:
+    - url: http://www.playback.ru
+      name: Интернет-магазин PlayBack.ru
+    - url: https://ipfran.ru
+      name: ИПФ РАН
+    - url: http://radiomv.ru
+      name: Милицейская волна
+    - url: https://nikoartgallery.com
+      name: Галерея искусств Niko
+    - url: https://www.lutherancathedral.ru
+      name: Собор Петра и Павла - Собор Петра и Павла
