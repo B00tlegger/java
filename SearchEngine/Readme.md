@@ -55,3 +55,8 @@
 
 ![image](https://user-images.githubusercontent.com/88447317/147097856-ccb24066-905c-4622-a5cc-c50d7e7a6b20.png)</br>
 
+<h2 align="center">Демо</h2>
+
+Производит поиск по сайту https://nikoartgallery.com 
+
+https://bulgakov-search-engine.herokuapp.com/
